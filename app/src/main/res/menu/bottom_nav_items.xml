@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_search"
+    <item android:id="@+id/action_nav_add"
         android:title="@string/title_add_journey"
         android:icon="@drawable/ic_add_circle_outline_black_24dp" />
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/action_nav_view"
         android:title="@string/title_view_journey"
         android:icon="@drawable/ic_format_align_justify_black_24dp" />
-    <item android:id="@+id/action_navigation"
+    <item android:id="@+id/action_nav_profile"
         android:title="@string/title_profile"
         android:icon="@drawable/ic_person_outline_black_24dp" />
 </menu>
