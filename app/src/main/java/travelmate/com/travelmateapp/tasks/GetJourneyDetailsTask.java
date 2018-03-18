@@ -46,7 +46,7 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
         Context context = (Context) objects[0];
         String locationString = "startlocation=" + encodeUrl(String.valueOf(objects[1])) + "&endlocation=" + encodeUrl(String.valueOf(objects[2]));
         String url = context.getString(R.string.server_url) + "/api/journey/search?" + locationString;
-        String jsonStr = sh.makeServiceCall(url);
+        String jsonStr = sh.makeServiceCall("GET", url);
 
         if (jsonStr != null) {
             try {

@@ -1,12 +1,14 @@
 package travelmate.com.travelmateapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +20,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import travelmate.com.travelmateapp.tasks.RefreshTokenTask;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressCardView.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
+                    refreshToken();
                     finish();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 } else {
@@ -78,6 +84,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+    }
+
+    private void refreshToken() {
+        new RefreshTokenTask(this).execute(mAuth.getCurrentUser().getUid(), FirebaseInstanceId.getInstance().getId());
+        Log.d(LoginActivity.class.getSimpleName(), "Token Updated.");
     }
 
     @Override

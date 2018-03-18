@@ -23,12 +23,12 @@ public class HttpHandler {
     public HttpHandler() {
     }
 
-    public String makeServiceCall(String reqUrl) {
+    public String makeServiceCall(String reqType, String reqUrl) {
         String response = null;
         try {
             URL url = new URL(reqUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod(reqType);
             // read the response
             InputStream in = new BufferedInputStream(conn.getInputStream());
             response = convertStreamToString(in);
