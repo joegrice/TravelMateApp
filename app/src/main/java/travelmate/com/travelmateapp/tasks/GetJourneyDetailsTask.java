@@ -16,10 +16,12 @@ import travelmate.com.travelmateapp.AddJourneyActivity;
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.helpers.HttpHandler;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.Instruction;
-import travelmate.com.travelmateapp.models.Journey;
-import travelmate.com.travelmateapp.models.Leg;
-import travelmate.com.travelmateapp.models.Step;
+import travelmate.com.travelmateapp.models.GJourney;
+import travelmate.com.travelmateapp.models.GLeg;
+import travelmate.com.travelmateapp.models.GLine;
+import travelmate.com.travelmateapp.models.GRoute;
+import travelmate.com.travelmateapp.models.GStep;
+import travelmate.com.travelmateapp.models.GTransitDetails;
 
 /**
  * Created by joegr on 25/01/2018.
@@ -42,7 +44,7 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
     @Override
     protected Object doInBackground(Object[] objects) {
         HttpHandler sh = new HttpHandler();
-        ArrayList<Journey> journeys = new ArrayList<>();
+        GJourney journey = new GJourney();
         Context context = (Context) objects[0];
         String locationString = "startlocation=" + encodeUrl(String.valueOf(objects[1])) + "&endlocation=" + encodeUrl(String.valueOf(objects[2]));
         String url = context.getString(R.string.server_url) + "/api/journey/search?" + locationString;
@@ -51,13 +53,7 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
-                JSONArray journeysArr = jsonObj.getJSONArray("Journeys");
-
-                for (int i = 0; i < journeysArr.length(); i++) {
-                    JSONObject item = journeysArr.getJSONObject(i);
-                    Journey newJourney = createJourney(item);
-                    journeys.add(newJourney);
-                }
+                journey = createJourney(jsonObj);
             } catch (final JSONException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -65,7 +61,7 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
         } else {
             Log.e(TAG, "Couldn't get json from server.");
         }
-        return journeys;
+        return journey;
     }
 
     private String encodeUrl(String url) {
@@ -78,48 +74,56 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
         return encodedUrl;
     }
 
-    private Journey createJourney(JSONObject journeyJson) throws JSONException {
-        Journey journey = new Journey();
-        journey.startDateTime = journeyJson.getString("StartDateTime");
-        journey.arrivalDateTime = journeyJson.getString("ArrivalDateTime");
-        journey.duration = journeyJson.getInt("Duration");
-        journey.legs = createLegs(journeyJson.getJSONArray("Legs"));
+    private GJourney createJourney(JSONObject journeyJson) throws JSONException {
+        GJourney journey = new GJourney();
+        journey.routes = createRoutes(journeyJson.getJSONArray("routes"));
         return journey;
     }
 
-    private ArrayList<Leg> createLegs(JSONArray legsJson) throws JSONException {
-        ArrayList<Leg> legs = new ArrayList<>();
+    private ArrayList<GRoute> createRoutes(JSONArray routesJson) throws JSONException {
+        ArrayList<GRoute> routes = new ArrayList<>();
+        for (int i = 0; i < routesJson.length(); i++) {
+            JSONObject item = routesJson.getJSONObject(i);
+            GRoute route = new GRoute();
+            route.legs = createLegs(item.getJSONArray("legs"));
+            routes.add(route);
+        }
+        return routes;
+    }
+
+    private ArrayList<GLeg> createLegs(JSONArray legsJson) throws JSONException {
+        ArrayList<GLeg> legs = new ArrayList<>();
         for (int i = 0; i < legsJson.length(); i++) {
             JSONObject item = legsJson.getJSONObject(i);
-            Leg leg = new Leg();
-            leg.duration = item.getInt("Duration");
-            leg.instruction = createInstruction(item.getJSONObject("Instruction"));
+            GLeg leg = new GLeg();
+            leg.steps = createSteps(item.getJSONArray("steps"));
             legs.add(leg);
         }
         return legs;
     }
 
-    private Instruction createInstruction(JSONObject instructionJson) throws JSONException {
-        Instruction instruction = new Instruction();
-        instruction.detailed = instructionJson.getString("Detailed");
-        instruction.summary = instructionJson.getString("Summary");
-        instruction.steps = createSteps(instructionJson.getJSONArray("Steps"));
-        return instruction;
-    }
-
-    private ArrayList<Step> createSteps(JSONArray stepsJson) throws JSONException {
-        ArrayList<Step> steps = new ArrayList<>();
+    private ArrayList<GStep> createSteps(JSONArray stepsJson) throws JSONException {
+        ArrayList<GStep> steps = new ArrayList<>();
         for (int i = 0; i < stepsJson.length(); i++) {
             JSONObject item = stepsJson.getJSONObject(i);
-            Step step = new Step();
-            step.distance = item.getInt("Distance");
-            step.streetName = item.getString("StreetName");
-            step.description = item.getString("Description");
-            step.descriptionHeading = item.getString("DescriptionHeading");
-            step.turnDirection = item.getString("TurnDirection");
+            GStep step = new GStep();
+            step.html_instructions = item.getString("html_instructions");
+            if (!item.isNull("transit_details")) {
+                step.transit_details = createTransitDetails(item.getJSONObject("transit_details"));
+            }
             steps.add(step);
         }
         return steps;
+    }
+
+    private GTransitDetails createTransitDetails(JSONObject transit_details) throws JSONException {
+        GTransitDetails transitDetails = new GTransitDetails();
+        JSONObject lineJson = transit_details.getJSONObject("line");
+        GLine line = new GLine();
+        line.name = lineJson.getString("name");
+        line.short_name = lineJson.getString("short_name");
+        transitDetails.line = line;
+        return transitDetails;
     }
 
     @Override

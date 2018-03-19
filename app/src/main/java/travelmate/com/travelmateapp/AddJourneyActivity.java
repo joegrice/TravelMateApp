@@ -1,44 +1,36 @@
 package travelmate.com.travelmateapp;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import travelmate.com.travelmateapp.helpers.NavigationHelper;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.Journey;
+import travelmate.com.travelmateapp.models.GJourney;
 import travelmate.com.travelmateapp.tasks.GetJourneyDetailsTask;
 
 public class AddJourneyActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private BottomNavigationView navigation;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            NavigationHelper navigationHelper = new NavigationHelper(AddJourneyActivity.this);
-            navigationHelper.onBottomNavigationViewClick(item);
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_journey);
-        navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.getMenu().getItem(0).setChecked(true);
+
         Button searchButton = findViewById(R.id.button_JourneySearch);
         searchButton.setOnClickListener(this);
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        NavigationHelper navListener = new NavigationHelper(this);
+        navigation.setOnNavigationItemSelectedListener(navListener);
+        navigation.getMenu().getItem(0).setChecked(true);
     }
 
     public void addJourney() {
@@ -52,12 +44,21 @@ public class AddJourneyActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void processFinish(Object output) {
-                    ArrayList<Journey> journeyArrayList = (ArrayList<Journey>) output;
-                    //spinner.setVisibility(View.GONE);
+                    GJourney journey = (GJourney) output;
+                    moveToSelectPage(journey);
                 }
             });
             asyncTask.execute(getApplicationContext(), startLocationString, endLocationString);
         }
+    }
+
+    private void moveToSelectPage(GJourney journey) {
+        Intent intent = new Intent(this, SelectJourneyActivity.class);
+        Gson gson = new Gson();
+        String routes = gson.toJson(journey);
+        intent.putExtra("routes", routes);
+        this.startActivity(intent);
+        finish();
     }
 
     @Override
