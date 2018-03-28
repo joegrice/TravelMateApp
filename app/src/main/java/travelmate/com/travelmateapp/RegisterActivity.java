@@ -1,5 +1,6 @@
 package travelmate.com.travelmateapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import travelmate.com.travelmateapp.tasks.RefreshTokenTask;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -66,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         progressCardView.setVisibility(View.VISIBLE);
         progressBarText.setText("Registering User...");
 
+        final Context context = this;
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -73,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         progressCardView.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                            new RefreshTokenTask(context).execute(firebaseAuth.getCurrentUser().getUid(), refreshedToken);
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             Log.d(TAG, "createUserWithEmail:success");

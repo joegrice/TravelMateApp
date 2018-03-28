@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void refreshToken() {
-        new RefreshTokenTask(this).execute(mAuth.getCurrentUser().getUid(), FirebaseInstanceId.getInstance().getId());
+        new RefreshTokenTask(this).execute(mAuth.getCurrentUser().getUid(), FirebaseInstanceId.getInstance().getToken());
         Log.d(LoginActivity.class.getSimpleName(), "Token Updated.");
     }
 

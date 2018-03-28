@@ -96,6 +96,8 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
         for (int i = 0; i < legsJson.length(); i++) {
             JSONObject item = legsJson.getJSONObject(i);
             GLeg leg = new GLeg();
+            leg.start_address = item.getString("start_address");
+            leg.end_address = item.getString("end_address");
             leg.steps = createSteps(item.getJSONArray("steps"));
             legs.add(leg);
         }

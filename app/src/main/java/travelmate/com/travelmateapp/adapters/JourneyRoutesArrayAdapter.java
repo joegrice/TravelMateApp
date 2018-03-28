@@ -8,11 +8,15 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 import travelmate.com.travelmateapp.R;
+import travelmate.com.travelmateapp.helpers.HttpHandler;
 import travelmate.com.travelmateapp.models.GRoute;
 import travelmate.com.travelmateapp.models.GStep;
+import travelmate.com.travelmateapp.tasks.SelectJourneyTask;
 
 /**
  * Created by joegr on 18/03/2018.
@@ -22,11 +26,13 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
 
     private Context context;
     private String TAG;
+    private String uid;
     private ArrayList<GRoute> routes = new ArrayList<>();
 
-    public JourneyRoutesArrayAdapter(Context context, ArrayList<GRoute> routes) {
+    public JourneyRoutesArrayAdapter(Context context, String uid, ArrayList<GRoute> routes) {
         super(context, 0, routes);
         this.context = context;
+        this.uid = uid;
         this.routes = routes;
         TAG = context.getClass().getSimpleName();
     }
@@ -37,15 +43,20 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.journey_list_item, parent, false);
         }
-        // Get the data item for this position
 
+        // Get the data item for this position
         final GRoute route = routes.get(position);
 
         // Attach the click event handler
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: SEND CHOICE TO SERVER
+                Gson gson = new Gson();
+                String routeJson = gson.toJson(route);
+                SelectJourneyTask selectJourneyTask = new SelectJourneyTask(context, uid,
+                        routeJson, route.legs.get(0).start_address,
+                        route.legs.get(route.legs.size() - 1).end_address);
+                selectJourneyTask.execute();
                 // TODO: SEND USER TO SAVED JOURNEYS PAGE
             }
         });
