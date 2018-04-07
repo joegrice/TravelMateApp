@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import travelmate.com.travelmateapp.AddJourneyActivity;
 import travelmate.com.travelmateapp.MainActivity;
+import travelmate.com.travelmateapp.ProfileActivity;
 import travelmate.com.travelmateapp.R;
 
 /**
@@ -30,9 +31,9 @@ public class NavigationHelper  implements BottomNavigationView.OnNavigationItemS
             case R.id.action_nav_view:
                 context.startActivity(new Intent(context, MainActivity.class));
                 break;
-            /*case R.id.action_nav_profile:
-                context.startActivity(new Intent(context, MpActivity.class));
-                break;*/
+            case R.id.action_nav_profile:
+                context.startActivity(new Intent(context, ProfileActivity.class));
+                break;
         }
     }
 
