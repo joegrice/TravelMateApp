@@ -7,36 +7,40 @@ import android.support.annotation.RequiresApi;
 
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.helpers.HttpHandler;
+import travelmate.com.travelmateapp.models.AsyncResponse;
+import travelmate.com.travelmateapp.models.GJourney;
 
 /**
  * Created by joegr on 19/03/2018.
  */
 
 @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-public class SelectJourneyTask extends AsyncTask<String, Void, Void> {
+public class SelectJourneyTask extends AsyncTask<Object, Object, Object> {
 
-    private Context context;
-    private String uid;
-    private String route;
-    private String startLocation;
-    private String endLocation;
+    private AsyncResponse delegate;
 
-    public SelectJourneyTask(Context context, String uid, String route, String startLocation, String endLocation) {
-        this.context = context;
-        this.uid = uid;
-        this.route = route;
-        this.startLocation = startLocation;
-        this.endLocation = endLocation;
+    public SelectJourneyTask(AsyncResponse delegate) {
+        this.delegate = delegate;
     }
 
     @Override
-    protected Void doInBackground(String... strings) {
+    protected Object doInBackground(Object... objects) {
+        Context context = (Context) objects[0];
+        String uid = (String) objects[1];
+        String route = (String) objects[2];
+        GJourney userJourney = (GJourney) objects[3];
         HttpHandler handler = new HttpHandler();
-        String params = "uid=" + uid + "&route=" + route
-                + "&startlocation=" + startLocation
-                + "&endlocation=" + endLocation;
+        String params = "uid=" + uid + "&route=" + route + "&startlocation=" + userJourney.from
+                + "&endlocation=" + userJourney.to + "&time=" + userJourney.time
+                + "&period=" + userJourney.period;
         String url = context.getString(R.string.server_url) + "/api/journey/select?" + params;
         handler.makeServiceCall("PUT", url);
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Object o) {
+        super.onPostExecute(o);
+        delegate.processFinish(o);
     }
 }

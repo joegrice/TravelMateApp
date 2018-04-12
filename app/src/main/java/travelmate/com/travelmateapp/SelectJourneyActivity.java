@@ -23,11 +23,11 @@ public class SelectJourneyActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         Intent intent = getIntent();
-        String routes = intent.getStringExtra("routes");
+        String userJourney = intent.getStringExtra("userJourney");
         Gson gson = new Gson();
-        GJourney journey = gson.fromJson(routes, GJourney.class);
+        GJourney journey = gson.fromJson(userJourney, GJourney.class);
 
-        JourneyRoutesArrayAdapter adapter = new JourneyRoutesArrayAdapter(this, mAuth.getCurrentUser().getUid(), journey.routes);
+        JourneyRoutesArrayAdapter adapter = new JourneyRoutesArrayAdapter(this, mAuth.getCurrentUser().getUid(), journey);
         ListView listView = findViewById(R.id.journeySelectList);
         listView.setAdapter(adapter);
     }

@@ -1,6 +1,7 @@
 package travelmate.com.travelmateapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import travelmate.com.travelmateapp.MainActivity;
 import travelmate.com.travelmateapp.R;
-import travelmate.com.travelmateapp.helpers.HttpHandler;
+import travelmate.com.travelmateapp.models.AsyncResponse;
+import travelmate.com.travelmateapp.models.GJourney;
 import travelmate.com.travelmateapp.models.GRoute;
 import travelmate.com.travelmateapp.models.GStep;
 import travelmate.com.travelmateapp.tasks.SelectJourneyTask;
@@ -26,15 +29,17 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
 
     private Context context;
     private String TAG;
+    private GJourney userJourney;
     private String uid;
     private ArrayList<GRoute> routes = new ArrayList<>();
 
-    public JourneyRoutesArrayAdapter(Context context, String uid, ArrayList<GRoute> routes) {
-        super(context, 0, routes);
+    public JourneyRoutesArrayAdapter(Context context, String uid, GJourney userJourney) {
+        super(context, 0, userJourney.routes);
         this.context = context;
         this.uid = uid;
-        this.routes = routes;
+        this.routes = userJourney.routes;
         TAG = context.getClass().getSimpleName();
+        this.userJourney = userJourney;
     }
 
     @Override
@@ -53,11 +58,17 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
             public void onClick(View view) {
                 Gson gson = new Gson();
                 String routeJson = gson.toJson(route);
-                SelectJourneyTask selectJourneyTask = new SelectJourneyTask(context, uid,
-                        routeJson, route.legs.get(0).start_address,
-                        route.legs.get(route.legs.size() - 1).end_address);
-                selectJourneyTask.execute();
-                // TODO: SEND USER TO SAVED JOURNEYS PAGE
+                userJourney.from = route.legs.get(0).start_address;
+                userJourney.to = route.legs.get(route.legs.size() - 1).end_address;
+                SelectJourneyTask selectJourneyTask = new SelectJourneyTask(new AsyncResponse() {
+
+                    @Override
+                    public void processFinish(Object output) {
+                        Intent viewJourneys = new Intent(getContext(), MainActivity.class);
+                        getContext().startActivity(viewJourneys);
+                    }
+                });
+                selectJourneyTask.execute(context, uid, routeJson, userJourney);
             }
         });
 

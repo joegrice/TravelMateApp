@@ -27,12 +27,12 @@ import travelmate.com.travelmateapp.models.GTransitDetails;
  * Created by joegr on 25/01/2018.
  */
 
-public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
+public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
 
     private String TAG = AddJourneyActivity.class.getSimpleName();
     public AsyncResponse delegate = null;
 
-    public GetJourneyDetailsTask(AsyncResponse delegate) {
+    public GetSavedJourneysTask(AsyncResponse delegate) {
         this.delegate = delegate;
     }
 
@@ -43,19 +43,26 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
 
     @Override
     protected Object doInBackground(Object[] objects) {
-        HttpHandler sh = new HttpHandler();
-        GJourney journey = new GJourney();
         Context context = (Context) objects[0];
-        GJourney userJourney = (GJourney) objects[1];
-        String locationString = "startlocation=" + encodeUrl(userJourney.from) +
-                "&endlocation=" + encodeUrl(userJourney.to) + "&time=" + encodeUrl(userJourney.time);
-        String url = context.getString(R.string.server_url) + "/api/journey/search?" + locationString;
+        String uid = (String) objects[1];
+        String paramString = "uid=" + encodeUrl(uid);
+        String url = context.getString(R.string.server_url) + "/api/journey/saved?" + paramString;
+        HttpHandler sh = new HttpHandler();
         String jsonStr = sh.makeServiceCall("GET", url);
 
+        ArrayList<GJourney> journeys = new ArrayList<>();
         if (jsonStr != null) {
             try {
-                JSONObject jsonObj = new JSONObject(jsonStr);
-                journey = createJourney(jsonObj);
+                JSONArray jsonArray = new JSONArray(jsonStr);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject currentJson = jsonArray.getJSONObject(i);
+                    GJourney journey = createJourney(currentJson);
+                    journey.from = currentJson.getString("from");
+                    journey.to = currentJson.getString("to");
+                    journey.time = currentJson.getString("time");
+                    journey.period = currentJson.getString("period");
+                    journeys.add(journey);
+                }
             } catch (final JSONException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -63,7 +70,7 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
         } else {
             Log.e(TAG, "Couldn't get json from server.");
         }
-        return journey;
+        return journeys;
     }
 
     private String encodeUrl(String url) {
