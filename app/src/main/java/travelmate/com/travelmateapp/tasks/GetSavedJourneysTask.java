@@ -61,6 +61,7 @@ public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
                     journey.to = currentJson.getString("to");
                     journey.time = currentJson.getString("time");
                     journey.period = currentJson.getString("period");
+                    journey.status = currentJson.getString("status");
                     journeys.add(journey);
                 }
             } catch (final JSONException e) {

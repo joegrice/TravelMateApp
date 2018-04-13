@@ -25,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         logout.setOnClickListener(this);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        NavigationHelper navListener = new NavigationHelper(this);
+        NavigationHelper navListener = new NavigationHelper(getApplicationContext());
         navigation.setOnNavigationItemSelectedListener(navListener);
         navigation.getMenu().getItem(2).setChecked(true);
     }

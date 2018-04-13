@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        NavigationHelper navListener = new NavigationHelper(this);
+        NavigationHelper navListener = new NavigationHelper(getApplicationContext());
         navigation.setOnNavigationItemSelectedListener(navListener);
         navigation.getMenu().getItem(1).setChecked(true);
 
