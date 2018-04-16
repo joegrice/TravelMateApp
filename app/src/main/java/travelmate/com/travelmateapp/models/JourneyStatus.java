@@ -5,6 +5,6 @@ package travelmate.com.travelmateapp.models;
  */
 
 public class JourneyStatus {
-    public String Delayed = "Delayed";
-    public String GoodService = "Good Service";
+    public static String Delayed = "Delayed";
+    public static String GoodService = "GoodService";
 }

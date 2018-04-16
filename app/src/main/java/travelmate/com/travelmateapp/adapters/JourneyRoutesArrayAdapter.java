@@ -79,16 +79,32 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
         // Populate inner LinearLayout
         for (GStep step : route.legs.get(0).steps) {
             View innerLayout = LayoutInflater.from(context).inflate(R.layout.journey_list_item_linear_item, null);
+            TextView stepText = innerLayout.findViewById(R.id.linear_step);
             TextView instruction = innerLayout.findViewById(R.id.linear_instruction);
             TextView name = innerLayout.findViewById(R.id.linear_name);
+            LinearLayout nameLayout = innerLayout.findViewById(R.id.linear_name_layout);
             TextView shortName = innerLayout.findViewById(R.id.linear_shortname);
+            LinearLayout shortNameLayout = innerLayout.findViewById(R.id.linear_shortname_layout);
 
+            int stepNum = route.legs.get(0).steps.indexOf(step);
+            stepText.setText("Step: " + ++stepNum);
             instruction.setText(step.html_instructions);
             if (step.transit_details != null && step.transit_details.line != null) {
-                name.setText(step.transit_details.line.name);
-                if (step.transit_details.line.short_name != null) {
-                    shortName.setText(step.transit_details.line.short_name);
+                if (step.transit_details.line.name != null
+                        && !step.transit_details.line.name.equals("null")) {
+                    name.setText(step.transit_details.line.name);
+                } else {
+                    nameLayout.setVisibility(View.GONE);
                 }
+                if (step.transit_details.line.short_name != null
+                        && !step.transit_details.line.short_name.equals("null")) {
+                    shortName.setText(step.transit_details.line.short_name);
+                } else {
+                    shortNameLayout.setVisibility(View.GONE);
+                }
+            } else {
+                nameLayout.setVisibility(View.GONE);
+                shortNameLayout.setVisibility(View.GONE);
             }
             linearLayout.addView(innerLayout);
         }

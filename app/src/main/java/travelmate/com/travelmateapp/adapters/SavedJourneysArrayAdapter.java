@@ -1,6 +1,8 @@
 package travelmate.com.travelmateapp.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.models.GJourney;
+import travelmate.com.travelmateapp.models.JourneyStatus;
 
 /**
  * Created by joegr on 09/04/2018.
@@ -50,6 +53,11 @@ public class SavedJourneysArrayAdapter extends ArrayAdapter<GJourney> {
         time.setText(journey.time);
         period.setText(journey.period);
         status.setText(journey.status);
+        if (journey.status.equals(JourneyStatus.Delayed)) {
+            status.setTextColor(Color.RED);
+        } else if (journey.status.equals(JourneyStatus.GoodService)) {
+            status.setTextColor(Color.parseColor("#8BC34A"));
+        }
 
         // Return the completed view to render on screen
         return convertView;
