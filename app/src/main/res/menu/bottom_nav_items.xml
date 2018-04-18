@@ -1,11 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_nav_add"
-        android:title="@string/title_add_journey"
-        android:icon="@drawable/ic_add_circle_outline_black_24dp" />
-    <item android:id="@+id/action_nav_view"
-        android:title="@string/title_view_journey"
-        android:icon="@drawable/ic_format_align_justify_black_24dp" />
-    <item android:id="@+id/action_nav_profile"
-        android:title="@string/title_profile"
-        android:icon="@drawable/ic_person_outline_black_24dp" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_nav_add"
+            android:icon="@drawable/ic_add_circle_outline_black_24dp"
+            android:title="@string/title_add_journey" />
+        <item
+            android:id="@+id/action_nav_view"
+            android:icon="@drawable/ic_format_align_justify_black_24dp"
+            android:title="@string/title_view_journey" />
+        <item
+            android:id="@+id/action_nav_logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="@string/title_logout" />
+    </group>
 </menu>

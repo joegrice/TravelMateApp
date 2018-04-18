@@ -8,7 +8,14 @@
     <string name="title_add_journey">Add Journey</string>
     <string name="title_view_journey">View</string>
     <string name="title_profile">Profile</string>
+    <string name="title_logout">Logout</string>
     <string name="start_location">Start Location</string>
     <string name="end_location">End Location</string>
     <string name="spin">Spin</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
