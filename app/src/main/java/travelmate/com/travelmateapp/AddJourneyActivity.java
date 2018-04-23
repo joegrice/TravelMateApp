@@ -85,6 +85,8 @@ public class AddJourneyActivity extends AppCompatActivity implements View.OnClic
 
     public void addJourney() {
         final GJourney userJourney = new GJourney();
+        EditText name = findViewById(R.id.editText_name);
+        userJourney.name = name.getText().toString();
         EditText startLocation = findViewById(R.id.editText_StartLocation);
         userJourney.from = startLocation.getText().toString();
         EditText endLocation = findViewById(R.id.editText_EndLocation);

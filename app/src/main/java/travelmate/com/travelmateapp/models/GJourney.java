@@ -1,5 +1,6 @@
 package travelmate.com.travelmateapp.models;
 
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 
 /**
@@ -8,10 +9,12 @@ import java.util.ArrayList;
 
 public class GJourney
 {
+    public String name;
     public String from;
     public String to;
     public String time;
     public String period;
     public String status;
     public ArrayList<GRoute> routes;
+    public ArrayList<DbLine> disruptedLines;
 }

@@ -30,9 +30,9 @@ public class SelectJourneyTask extends AsyncTask<Object, Object, Object> {
         String route = (String) objects[2];
         GJourney userJourney = (GJourney) objects[3];
         HttpHandler handler = new HttpHandler();
-        String params = "uid=" + uid + "&route=" + route + "&startlocation=" + userJourney.from
-                + "&endlocation=" + userJourney.to + "&time=" + userJourney.time
-                + "&period=" + userJourney.period;
+        String params = "uid=" + uid + "&name=" + userJourney.name + "&route=" + route
+                + "&startlocation=" + userJourney.from + "&endlocation=" + userJourney.to
+                + "&time=" + userJourney.time + "&period=" + userJourney.period;
         String url = context.getString(R.string.server_url) + "/api/journey/select?" + params;
         handler.makeServiceCall("PUT", url);
         return null;

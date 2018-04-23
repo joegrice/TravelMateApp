@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,17 +13,20 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.jar.Attributes;
 
 import travelmate.com.travelmateapp.AddJourneyActivity;
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.helpers.HttpHandler;
 import travelmate.com.travelmateapp.models.AsyncResponse;
+import travelmate.com.travelmateapp.models.DbLine;
 import travelmate.com.travelmateapp.models.GJourney;
 import travelmate.com.travelmateapp.models.GLeg;
 import travelmate.com.travelmateapp.models.GLine;
 import travelmate.com.travelmateapp.models.GRoute;
 import travelmate.com.travelmateapp.models.GStep;
 import travelmate.com.travelmateapp.models.GTransitDetails;
+import travelmate.com.travelmateapp.models.JourneyStatus;
 
 /**
  * Created by joegr on 25/01/2018.
@@ -57,11 +62,26 @@ public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject currentJson = jsonArray.getJSONObject(i);
                     GJourney journey = createJourney(currentJson);
+                    journey.name = currentJson.getString("name");
                     journey.from = currentJson.getString("from");
                     journey.to = currentJson.getString("to");
                     journey.time = currentJson.getString("time");
                     journey.period = currentJson.getString("period");
                     journey.status = currentJson.getString("status");
+                    journey.routes = createRoutes(currentJson.getJSONArray("routes"));
+                    if (journey.status.equals(JourneyStatus.Delayed)) {
+                        JSONArray disruptedLinesJsonArray = currentJson.getJSONArray("disruptedLines");
+                        ArrayList<DbLine> disruptedLines = new ArrayList<>();
+                        for (int j = 0; j < disruptedLinesJsonArray.length(); j++) {
+                            JSONObject dLine = disruptedLinesJsonArray.getJSONObject(j);
+                            DbLine dbLine = new DbLine();
+                            dbLine.Name = dLine.getString("Name");
+                            dbLine.Description = dLine.getString("Description");
+                            dbLine.IsDelayed = dLine.getString("IsDelayed");
+                            disruptedLines.add(dbLine);
+                        }
+                        journey.disruptedLines = disruptedLines;
+                    }
                     journeys.add(journey);
                 }
             } catch (final JSONException e) {

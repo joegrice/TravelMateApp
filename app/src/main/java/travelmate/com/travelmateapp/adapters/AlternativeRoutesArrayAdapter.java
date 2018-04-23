@@ -25,21 +25,17 @@ import travelmate.com.travelmateapp.tasks.SelectJourneyTask;
  * Created by joegr on 18/03/2018.
  */
 
-public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
+public class AlternativeRoutesArrayAdapter extends ArrayAdapter<GRoute> {
 
     private Context context;
     private String TAG;
-    private GJourney userJourney;
-    private String uid;
     private ArrayList<GRoute> routes;
 
-    public JourneyRoutesArrayAdapter(Context context, String uid, GJourney userJourney) {
-        super(context, 0, userJourney.routes);
+    public AlternativeRoutesArrayAdapter(Context context, ArrayList<GRoute> routes) {
+        super(context, 0, routes);
         this.context = context;
-        this.uid = uid;
-        this.routes = userJourney.routes;
+        this.routes = routes;
         TAG = context.getClass().getSimpleName();
-        this.userJourney = userJourney;
     }
 
     @Override
@@ -51,26 +47,6 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
 
         // Get the data item for this position
         final GRoute route = routes.get(position);
-
-        // Attach the click event handler
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Gson gson = new Gson();
-                String routeJson = gson.toJson(route);
-                userJourney.from = route.legs.get(0).start_address;
-                userJourney.to = route.legs.get(route.legs.size() - 1).end_address;
-                SelectJourneyTask selectJourneyTask = new SelectJourneyTask(new AsyncResponse() {
-
-                    @Override
-                    public void processFinish(Object output) {
-                        Intent viewJourneys = new Intent(getContext(), MainActivity.class);
-                        getContext().startActivity(viewJourneys);
-                    }
-                });
-                selectJourneyTask.execute(context, uid, routeJson, userJourney);
-            }
-        });
 
         // Lookup view for data population
         LinearLayout linearLayout = convertView.findViewById(R.id.journey_list_item_linear);
