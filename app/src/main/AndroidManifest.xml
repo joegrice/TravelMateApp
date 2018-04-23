@@ -30,7 +30,8 @@
 
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,19 +40,21 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_journeys" />
+            android:label="@string/title_journeys"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddJourneyActivity"
-            android:label="@string/title_add_journey" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SelectJourneyActivity"
-            android:label="@string/title_select_journey" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/app_name" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".SavedJourneyActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
         <service android:name=".firebase.FireMessagingService">
