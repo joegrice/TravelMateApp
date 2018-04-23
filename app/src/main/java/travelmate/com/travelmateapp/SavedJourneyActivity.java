@@ -53,7 +53,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
 
         if (journey.disruptedLines != null && journey.disruptedLines.size() > 0) {
             TextView disruptedLinesLabel = findViewById(R.id.disruptedLinesLabel);
-            disruptedLinesLabel.setText("Disrupted L");
+            disruptedLinesLabel.setText("Disrupted Line(s):");
             disruptedLinesLabel.setVisibility(View.VISIBLE);
             ListView disruptedLinesList = findViewById(R.id.disruptedLinesList);
             disruptedLinesList.setVisibility(View.VISIBLE);
@@ -72,7 +72,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
 
     private void getAlternativeRoutes(final GJourney journey) {
         progressBar.setVisibility(View.VISIBLE);
-        progressBarText.setText("Getting Alternative Routes...");
+        progressBarText.setText("Finding Alternative Routes...");
         GetJourneyDetailsTask asyncTask = new GetJourneyDetailsTask(new AsyncResponse() {
 
             @Override
@@ -81,11 +81,15 @@ public class SavedJourneyActivity extends AppCompatActivity {
                 ArrayList<GRoute> validRoutes = getValidRoutes(outputJourney.routes, journey.disruptedLines);
                 if (!validRoutes.isEmpty()) {
                     TextView alternativeRouteLabel = findViewById(R.id.altRoutesLabel);
-                    alternativeRouteLabel.setText("Alternative Routes:");
+                    alternativeRouteLabel.setText("Alternative Route(s):");
                     alternativeRouteLabel.setVisibility(View.VISIBLE);
                     AlternativeRoutesArrayAdapter adapter = new AlternativeRoutesArrayAdapter(getApplicationContext(), validRoutes);
                     ListView listView = findViewById(R.id.altJourneyList);
                     listView.setAdapter(adapter);
+                } else {
+                    TextView altRoutesText = findViewById(R.id.altRoutesText);
+                    altRoutesText.setText("Unable to find a new transit route without disruptions!");
+                    altRoutesText.setVisibility(View.VISIBLE);
                 }
                 progressBar.setVisibility(View.GONE);
             }
