@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/saved_journey_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -32,6 +32,12 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/disruptedLinesLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
         <ListView
             android:id="@+id/disruptedLinesList"
             android:layout_width="match_parent"
@@ -40,7 +46,7 @@
 
         <TextView
             android:id="@+id/altRoutesLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
@@ -50,5 +56,13 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/savedJourneyProgressBar"
+        layout="@layout/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

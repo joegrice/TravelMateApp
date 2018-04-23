@@ -22,11 +22,17 @@ import travelmate.com.travelmateapp.tasks.GetJourneyDetailsTask;
 
 public class SavedJourneyActivity extends AppCompatActivity {
 
+    private TextView progressBarText;
+    private View progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_journey);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        progressBar = findViewById(R.id.savedJourneyProgressBar);
+        progressBarText = progressBar.findViewById(R.id.progressBarText);
 
         Intent intent = getIntent();
         Gson gson = new Gson();
@@ -46,11 +52,13 @@ public class SavedJourneyActivity extends AppCompatActivity {
         status.setText(journey.status);
 
         if (journey.disruptedLines != null && journey.disruptedLines.size() > 0) {
+            TextView disruptedLinesLabel = findViewById(R.id.disruptedLinesLabel);
+            disruptedLinesLabel.setText("Disrupted Lines:");
+            disruptedLinesLabel.setVisibility(View.VISIBLE);
             ListView disruptedLinesList = findViewById(R.id.disruptedLinesList);
             disruptedLinesList.setVisibility(View.VISIBLE);
             DisruptedLinesArrayAdapter adapter = new DisruptedLinesArrayAdapter(getApplicationContext(), journey.disruptedLines);
-            ListView listView = findViewById(R.id.disruptedLinesList);
-            listView.setAdapter(adapter);
+            disruptedLinesList.setAdapter(adapter);
             getAlternativeRoutes(journey);
         } else {
             TextView alternativeRouteLabel = findViewById(R.id.altRoutesLabel);
@@ -63,6 +71,8 @@ public class SavedJourneyActivity extends AppCompatActivity {
     }
 
     private void getAlternativeRoutes(final GJourney journey) {
+        progressBar.setVisibility(View.VISIBLE);
+        progressBarText.setText("Getting Alternative Routes...");
         GetJourneyDetailsTask asyncTask = new GetJourneyDetailsTask(new AsyncResponse() {
 
             @Override
@@ -77,6 +87,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
                     ListView listView = findViewById(R.id.altJourneyList);
                     listView.setAdapter(adapter);
                 }
+                progressBar.setVisibility(View.GONE);
             }
         });
 
