@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DrawerLayout mDrawerLayout;
+    private SavedJourneysArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +66,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void processFinish(Object output) {
                 ArrayList<GJourney> journeys = (ArrayList<GJourney>) output;
-                SavedJourneysArrayAdapter adapter = new SavedJourneysArrayAdapter(getApplicationContext(), journeys);
+                adapter = new SavedJourneysArrayAdapter(getApplicationContext(), journeys);
                 ListView listView = findViewById(R.id.savedJourneysListView);
                 listView.setAdapter(adapter);
             }
         });
         asyncTask.execute(getApplicationContext(), mAuth.getCurrentUser().getUid());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Only if you need to restore open/close state when
+        // the orientation is changed
+        if (adapter != null) {
+            adapter.saveStates(outState);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Only if you need to restore open/close state when
+        // the orientation is changed
+        if (adapter != null) {
+            adapter.restoreStates(savedInstanceState);
+        }
     }
 }

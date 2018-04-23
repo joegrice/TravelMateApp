@@ -62,6 +62,7 @@ public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject currentJson = jsonArray.getJSONObject(i);
                     GJourney journey = createJourney(currentJson);
+                    journey.id = currentJson.getInt("id");
                     journey.name = currentJson.getString("name");
                     journey.from = currentJson.getString("from");
                     journey.to = currentJson.getString("to");

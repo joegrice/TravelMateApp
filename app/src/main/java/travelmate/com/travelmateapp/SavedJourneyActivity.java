@@ -53,7 +53,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
 
         if (journey.disruptedLines != null && journey.disruptedLines.size() > 0) {
             TextView disruptedLinesLabel = findViewById(R.id.disruptedLinesLabel);
-            disruptedLinesLabel.setText("Disrupted Lines:");
+            disruptedLinesLabel.setText("Disrupted L");
             disruptedLinesLabel.setVisibility(View.VISIBLE);
             ListView disruptedLinesList = findViewById(R.id.disruptedLinesList);
             disruptedLinesList.setVisibility(View.VISIBLE);
