@@ -22,14 +22,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import travelmate.com.travelmateapp.helpers.ProgressBarUpdater;
 import travelmate.com.travelmateapp.tasks.RefreshTokenTask;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private CardView progressCardView;
-    private TextView progressBarText;
+    private ProgressBarUpdater progressBarUpdater;
     private FirebaseAuth mAuth;
 
     @Override
@@ -47,8 +47,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         TextView textViewSignUp = findViewById(R.id.textViewSignUp);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
-        progressBarText = findViewById(R.id.loginProgressBarText);
-        progressCardView = findViewById(R.id.loginProgressCardView);
+        View progressCard = findViewById(R.id.loginProgressBar);
+        progressBarUpdater = new ProgressBarUpdater(progressCard);
 
         buttonSignIn.setOnClickListener(this);
         textViewSignUp.setOnClickListener(this);
@@ -68,13 +68,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        progressCardView.setVisibility(View.VISIBLE);
-        progressBarText.setText("Logging User In...");
-
+        progressBarUpdater.updateProgress("Logging User In...");
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                progressCardView.setVisibility(View.GONE);
+                progressBarUpdater.updateProgressVisibility();
                 if (task.isSuccessful()) {
                     refreshToken();
                     finish();

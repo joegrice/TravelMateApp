@@ -1,11 +1,9 @@
 package travelmate.com.travelmateapp;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import travelmate.com.travelmateapp.helpers.ProgressBarUpdater;
 import travelmate.com.travelmateapp.tasks.RefreshTokenTask;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,8 +26,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private TextView progressBarText;
-    private CardView progressCardView;
+    private ProgressBarUpdater progressBarUpdater;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -46,8 +44,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         TextView textViewSignin = findViewById(R.id.textViewSignIn);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
-        progressCardView = findViewById(R.id.regProgressCardView);
-        progressBarText = findViewById(R.id.regProgressBarText);
+        View progressCard = findViewById(R.id.registerProgressBar);
+        progressBarUpdater = new ProgressBarUpdater(progressCard);
 
         buttonRegister.setOnClickListener(this);
         textViewSignin.setOnClickListener(this);
@@ -67,19 +65,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        progressCardView.setVisibility(View.VISIBLE);
-        progressBarText.setText("Registering User...");
-
-        final Context context = this;
+        progressBarUpdater.updateProgress("Registering User...");
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressCardView.setVisibility(View.GONE);
+                        progressBarUpdater.updateProgressVisibility();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-                            new RefreshTokenTask(context).execute(firebaseAuth.getCurrentUser().getUid(), refreshedToken);
+                            new RefreshTokenTask(getApplicationContext()).execute(firebaseAuth.getCurrentUser().getUid(), refreshedToken);
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             Log.d(TAG, "createUserWithEmail:success");
@@ -91,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         }
                     }
                 });
-
 
     }
 

@@ -96,7 +96,6 @@ public class AddJourneyActivity extends AppCompatActivity implements View.OnClic
         Spinner spinner = findViewById(R.id.period_spinner);
         userJourney.period = spinner.getSelectedItem().toString();
 
-
         if (startLocation.length() > 0 && endLocation.length() > 0) {
             GetJourneyDetailsTask asyncTask = new GetJourneyDetailsTask(new AsyncResponse() {
 
@@ -109,7 +108,6 @@ public class AddJourneyActivity extends AppCompatActivity implements View.OnClic
             });
             asyncTask.execute(getApplicationContext(), userJourney);
         }
-
     }
 
     private void moveToSelectPage(GJourney journey) {

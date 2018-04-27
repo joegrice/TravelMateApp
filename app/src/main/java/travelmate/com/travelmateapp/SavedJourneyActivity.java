@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import travelmate.com.travelmateapp.adapters.AlternativeRoutesArrayAdapter;
 import travelmate.com.travelmateapp.adapters.DisruptedLinesArrayAdapter;
+import travelmate.com.travelmateapp.helpers.ProgressBarUpdater;
 import travelmate.com.travelmateapp.models.AsyncResponse;
 import travelmate.com.travelmateapp.models.DbLine;
 import travelmate.com.travelmateapp.models.GJourney;
@@ -22,8 +23,7 @@ import travelmate.com.travelmateapp.tasks.GetJourneyDetailsTask;
 
 public class SavedJourneyActivity extends AppCompatActivity {
 
-    private TextView progressBarText;
-    private View progressBar;
+    private ProgressBarUpdater progressBarUpdater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +31,13 @@ public class SavedJourneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_saved_journey);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        progressBar = findViewById(R.id.savedJourneyProgressBar);
-        progressBarText = progressBar.findViewById(R.id.progressBarText);
+        View progressBar = findViewById(R.id.savedJourneyProgressBar);
+        progressBarUpdater = new ProgressBarUpdater(progressBar);
 
         Intent intent = getIntent();
         Gson gson = new Gson();
         GJourney journey = gson.fromJson(intent.getStringExtra("journeyJson"), GJourney.class);
+        setTitle(journey.name);
         displaySavedDetails(journey);
     }
 
@@ -47,7 +48,6 @@ public class SavedJourneyActivity extends AppCompatActivity {
     }
 
     private void displaySavedDetails(GJourney journey) {
-        setTitle(journey.name);
         TextView status = findViewById(R.id.activity_saved_journey_status);
         status.setText(journey.status);
 
@@ -71,8 +71,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
     }
 
     private void getAlternativeRoutes(final GJourney journey) {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBarText.setText("Finding Alternative Routes...");
+        progressBarUpdater.updateProgress("Finding Alternative Routes...");
         GetJourneyDetailsTask asyncTask = new GetJourneyDetailsTask(new AsyncResponse() {
 
             @Override
@@ -91,7 +90,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
                     altRoutesText.setText("Unable to find a new transit route without disruptions!");
                     altRoutesText.setVisibility(View.VISIBLE);
                 }
-                progressBar.setVisibility(View.GONE);
+                progressBarUpdater.updateProgressVisibility();
             }
         });
 
