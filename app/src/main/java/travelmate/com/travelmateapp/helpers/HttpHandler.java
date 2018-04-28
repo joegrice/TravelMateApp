@@ -11,10 +11,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class HttpHandler {
 
@@ -64,5 +66,15 @@ public class HttpHandler {
         }
 
         return sb.toString();
+    }
+
+    public String encodeUrl(String url) {
+        String encodedUrl = "";
+        try {
+            encodedUrl = URLEncoder.encode(url, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encodedUrl;
     }
 }

@@ -80,6 +80,7 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
         for (GStep step : route.legs.get(0).steps) {
             View innerLayout = LayoutInflater.from(context).inflate(R.layout.journey_list_item_linear_item, null);
             TextView stepText = innerLayout.findViewById(R.id.linear_step);
+            TextView stepDuration = innerLayout.findViewById(R.id.linear_step_duration);
             TextView instruction = innerLayout.findViewById(R.id.linear_instruction);
             TextView name = innerLayout.findViewById(R.id.linear_name);
             LinearLayout nameLayout = innerLayout.findViewById(R.id.linear_name_layout);
@@ -88,6 +89,7 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
 
             int stepNum = route.legs.get(0).steps.indexOf(step);
             stepText.setText("Step: " + ++stepNum);
+            stepDuration.setText(step.duration.text);
             instruction.setText(step.html_instructions);
             if (step.transit_details != null && step.transit_details.line != null) {
                 if (step.transit_details.line.name != null

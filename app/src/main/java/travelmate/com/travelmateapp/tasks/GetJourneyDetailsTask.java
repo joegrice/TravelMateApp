@@ -43,19 +43,19 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
 
     @Override
     protected Object doInBackground(Object[] objects) {
-        HttpHandler sh = new HttpHandler();
+        HttpHandler handler = new HttpHandler();
         GJourney journey = new GJourney();
         Context context = (Context) objects[0];
         GJourney userJourney = (GJourney) objects[1];
-        String locationString = "startlocation=" + encodeUrl(userJourney.from) +
-                "&endlocation=" + encodeUrl(userJourney.to) + "&time=" + encodeUrl(userJourney.time);
+        String locationString = "startlocation=" + handler.encodeUrl(userJourney.from) +
+                "&endlocation=" + handler.encodeUrl(userJourney.to) + "&time=" + handler.encodeUrl(userJourney.time);
         String url = context.getString(R.string.server_url) + "/api/journey/search?" + locationString;
-        String jsonStr = sh.makeServiceCall("GET", url);
+        String jsonStr = handler.makeServiceCall("GET", url);
 
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
-                journey = createJourney(jsonObj);
+                journey = new GJourney(jsonObj);
             } catch (final JSONException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -64,70 +64,6 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
             Log.e(TAG, "Couldn't get json from server.");
         }
         return journey;
-    }
-
-    private String encodeUrl(String url) {
-        String encodedUrl = "";
-        try {
-            encodedUrl = URLEncoder.encode(url, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return encodedUrl;
-    }
-
-    private GJourney createJourney(JSONObject journeyJson) throws JSONException {
-        GJourney journey = new GJourney();
-        journey.routes = createRoutes(journeyJson.getJSONArray("routes"));
-        return journey;
-    }
-
-    private ArrayList<GRoute> createRoutes(JSONArray routesJson) throws JSONException {
-        ArrayList<GRoute> routes = new ArrayList<>();
-        for (int i = 0; i < routesJson.length(); i++) {
-            JSONObject item = routesJson.getJSONObject(i);
-            GRoute route = new GRoute();
-            route.legs = createLegs(item.getJSONArray("legs"));
-            routes.add(route);
-        }
-        return routes;
-    }
-
-    private ArrayList<GLeg> createLegs(JSONArray legsJson) throws JSONException {
-        ArrayList<GLeg> legs = new ArrayList<>();
-        for (int i = 0; i < legsJson.length(); i++) {
-            JSONObject item = legsJson.getJSONObject(i);
-            GLeg leg = new GLeg();
-            leg.start_address = item.getString("start_address");
-            leg.end_address = item.getString("end_address");
-            leg.steps = createSteps(item.getJSONArray("steps"));
-            legs.add(leg);
-        }
-        return legs;
-    }
-
-    private ArrayList<GStep> createSteps(JSONArray stepsJson) throws JSONException {
-        ArrayList<GStep> steps = new ArrayList<>();
-        for (int i = 0; i < stepsJson.length(); i++) {
-            JSONObject item = stepsJson.getJSONObject(i);
-            GStep step = new GStep();
-            step.html_instructions = item.getString("html_instructions");
-            if (!item.isNull("transit_details")) {
-                step.transit_details = createTransitDetails(item.getJSONObject("transit_details"));
-            }
-            steps.add(step);
-        }
-        return steps;
-    }
-
-    private GTransitDetails createTransitDetails(JSONObject transit_details) throws JSONException {
-        GTransitDetails transitDetails = new GTransitDetails();
-        JSONObject lineJson = transit_details.getJSONObject("line");
-        GLine line = new GLine();
-        line.name = lineJson.getString("name");
-        line.short_name = lineJson.getString("short_name");
-        transitDetails.line = line;
-        return transitDetails;
     }
 
     @Override
