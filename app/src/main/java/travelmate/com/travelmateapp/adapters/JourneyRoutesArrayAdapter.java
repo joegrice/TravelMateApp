@@ -16,24 +16,24 @@ import java.util.ArrayList;
 import travelmate.com.travelmateapp.MainActivity;
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.GJourney;
-import travelmate.com.travelmateapp.models.GRoute;
-import travelmate.com.travelmateapp.models.GStep;
+import travelmate.com.travelmateapp.models.Journey;
+import travelmate.com.travelmateapp.models.Route;
+import travelmate.com.travelmateapp.models.Step;
 import travelmate.com.travelmateapp.tasks.SelectJourneyTask;
 
 /**
  * Created by joegr on 18/03/2018.
  */
 
-public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
+public class JourneyRoutesArrayAdapter extends ArrayAdapter<Route> {
 
     private Context context;
     private String TAG;
-    private GJourney userJourney;
+    private Journey userJourney;
     private String uid;
-    private ArrayList<GRoute> routes;
+    private ArrayList<Route> routes;
 
-    public JourneyRoutesArrayAdapter(Context context, String uid, GJourney userJourney) {
+    public JourneyRoutesArrayAdapter(Context context, String uid, Journey userJourney) {
         super(context, 0, userJourney.routes);
         this.context = context;
         this.uid = uid;
@@ -50,7 +50,7 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
         }
 
         // Get the data item for this position
-        final GRoute route = routes.get(position);
+        final Route route = routes.get(position);
 
         // Attach the click event handler
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +77,7 @@ public class JourneyRoutesArrayAdapter extends ArrayAdapter<GRoute> {
         linearLayout.removeAllViews();
 
         // Populate inner LinearLayout
-        for (GStep step : route.legs.get(0).steps) {
+        for (Step step : route.legs.get(0).steps) {
             View innerLayout = LayoutInflater.from(context).inflate(R.layout.journey_list_item_linear_item, null);
             TextView stepText = innerLayout.findViewById(R.id.linear_step);
             TextView stepDuration = innerLayout.findViewById(R.id.linear_step_duration);

@@ -2,7 +2,7 @@ package travelmate.com.travelmateapp.models;
 
 import java.util.ArrayList;
 
-public class GRoute
+public class Route
 {
-    public ArrayList<GLeg> legs;
+    public ArrayList<Leg> legs;
 }

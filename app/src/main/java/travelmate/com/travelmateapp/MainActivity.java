@@ -18,7 +18,7 @@ import travelmate.com.travelmateapp.adapters.SavedJourneysArrayAdapter;
 import travelmate.com.travelmateapp.helpers.NavDrawerListener;
 import travelmate.com.travelmateapp.helpers.NavigationHelper;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.GJourney;
+import travelmate.com.travelmateapp.models.Journey;
 import travelmate.com.travelmateapp.tasks.GetSavedJourneysTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void processFinish(Object output) {
-                ArrayList<GJourney> journeys = (ArrayList<GJourney>) output;
+                ArrayList<Journey> journeys = (ArrayList<Journey>) output;
                 adapter = new SavedJourneysArrayAdapter(getApplicationContext(), journeys);
                 ListView listView = findViewById(R.id.savedJourneysListView);
                 listView.setAdapter(adapter);

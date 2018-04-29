@@ -8,7 +8,6 @@ import android.support.annotation.RequiresApi;
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.helpers.HttpHandler;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.GJourney;
 
 /**
  * Created by joegr on 19/03/2018.

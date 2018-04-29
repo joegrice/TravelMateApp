@@ -16,9 +16,9 @@ import travelmate.com.travelmateapp.adapters.DisruptedLinesArrayAdapter;
 import travelmate.com.travelmateapp.helpers.ProgressBarUpdater;
 import travelmate.com.travelmateapp.models.AsyncResponse;
 import travelmate.com.travelmateapp.models.DbLine;
-import travelmate.com.travelmateapp.models.GJourney;
-import travelmate.com.travelmateapp.models.GRoute;
-import travelmate.com.travelmateapp.models.GStep;
+import travelmate.com.travelmateapp.models.Journey;
+import travelmate.com.travelmateapp.models.Route;
+import travelmate.com.travelmateapp.models.Step;
 import travelmate.com.travelmateapp.tasks.GetJourneyDetailsTask;
 
 public class SavedJourneyActivity extends AppCompatActivity {
@@ -36,7 +36,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Gson gson = new Gson();
-        GJourney journey = gson.fromJson(intent.getStringExtra("journeyJson"), GJourney.class);
+        Journey journey = gson.fromJson(intent.getStringExtra("journeyJson"), Journey.class);
         setTitle(journey.name);
         displaySavedDetails(journey);
     }
@@ -47,7 +47,7 @@ public class SavedJourneyActivity extends AppCompatActivity {
         return true;
     }
 
-    private void displaySavedDetails(GJourney journey) {
+    private void displaySavedDetails(Journey journey) {
         TextView status = findViewById(R.id.activity_saved_journey_status);
         status.setText(journey.status);
 
@@ -70,14 +70,14 @@ public class SavedJourneyActivity extends AppCompatActivity {
         }
     }
 
-    private void getAlternativeRoutes(final GJourney journey) {
+    private void getAlternativeRoutes(final Journey journey) {
         progressBarUpdater.updateProgress("Finding Alternative Routes...");
         GetJourneyDetailsTask asyncTask = new GetJourneyDetailsTask(new AsyncResponse() {
 
             @Override
             public void processFinish(Object output) {
-                GJourney outputJourney = (GJourney) output;
-                ArrayList<GRoute> validRoutes = getValidRoutes(outputJourney.routes, journey.disruptedLines);
+                Journey outputJourney = (Journey) output;
+                ArrayList<Route> validRoutes = getValidRoutes(outputJourney.routes, journey.disruptedLines);
                 if (!validRoutes.isEmpty()) {
                     TextView alternativeRouteLabel = findViewById(R.id.altRoutesLabel);
                     alternativeRouteLabel.setText("Alternative Route(s):");
@@ -97,11 +97,11 @@ public class SavedJourneyActivity extends AppCompatActivity {
         asyncTask.execute(getApplicationContext(), journey);
     }
 
-    private ArrayList<GRoute> getValidRoutes(ArrayList<GRoute> routes, ArrayList<DbLine> disruptedLines) {
-        ArrayList<GRoute> validRoutes = new ArrayList<>();
-        for (GRoute route : routes) {
+    private ArrayList<Route> getValidRoutes(ArrayList<Route> routes, ArrayList<DbLine> disruptedLines) {
+        ArrayList<Route> validRoutes = new ArrayList<>();
+        for (Route route : routes) {
             boolean containsDelayedLine = false;
-            for (GStep step : route.legs.get(0).steps) {
+            for (Step step : route.legs.get(0).steps) {
                 if (step.transit_details != null && step.transit_details.line != null) {
                     for (DbLine dbLine : disruptedLines) {
                         if (step.transit_details.line.name.equals(dbLine.Name)

@@ -5,15 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.models.DbLine;
-import travelmate.com.travelmateapp.models.GRoute;
-import travelmate.com.travelmateapp.models.GStep;
 
 /**
  * Created by joegr on 18/03/2018.

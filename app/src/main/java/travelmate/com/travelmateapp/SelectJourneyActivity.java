@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import travelmate.com.travelmateapp.adapters.JourneyRoutesArrayAdapter;
-import travelmate.com.travelmateapp.models.GJourney;
+import travelmate.com.travelmateapp.models.Journey;
 
 public class SelectJourneyActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class SelectJourneyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userJourney = intent.getStringExtra("userJourney");
         Gson gson = new Gson();
-        GJourney journey = gson.fromJson(userJourney, GJourney.class);
+        Journey journey = gson.fromJson(userJourney, Journey.class);
 
         JourneyRoutesArrayAdapter adapter = new JourneyRoutesArrayAdapter(this, mAuth.getCurrentUser().getUid(), journey);
         ListView listView = findViewById(R.id.journeySelectList);

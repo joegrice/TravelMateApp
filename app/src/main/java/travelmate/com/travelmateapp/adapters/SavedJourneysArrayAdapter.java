@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.SavedJourneyActivity;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.GJourney;
+import travelmate.com.travelmateapp.models.Journey;
 import travelmate.com.travelmateapp.models.JourneyStatus;
 import travelmate.com.travelmateapp.models.ViewHolder;
 import travelmate.com.travelmateapp.tasks.DeleteJourneyTask;
@@ -27,13 +27,13 @@ import travelmate.com.travelmateapp.tasks.DeleteJourneyTask;
  * Created by joegr on 09/04/2018.
  */
 
-public class SavedJourneysArrayAdapter extends ArrayAdapter<GJourney> {
+public class SavedJourneysArrayAdapter extends ArrayAdapter<Journey> {
 
     private Context context;
-    private ArrayList<GJourney> journeys;
+    private ArrayList<Journey> journeys;
     private final ViewBinderHelper binderHelper;
 
-    public SavedJourneysArrayAdapter(Context context, ArrayList<GJourney> journeys) {
+    public SavedJourneysArrayAdapter(Context context, ArrayList<Journey> journeys) {
         super(context, 0, journeys);
         this.context = context;
         this.journeys = journeys;
@@ -57,7 +57,7 @@ public class SavedJourneysArrayAdapter extends ArrayAdapter<GJourney> {
         }
 
         // Get the data item for this position
-        final GJourney journey = journeys.get(position);
+        final Journey journey = journeys.get(position);
 
         // Attach the click event handler
         if (journey != null) {

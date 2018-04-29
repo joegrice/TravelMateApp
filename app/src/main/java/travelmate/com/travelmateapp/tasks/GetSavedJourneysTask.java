@@ -4,29 +4,18 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.jar.Attributes;
 
 import travelmate.com.travelmateapp.AddJourneyActivity;
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.helpers.HttpHandler;
 import travelmate.com.travelmateapp.models.AsyncResponse;
 import travelmate.com.travelmateapp.models.DbLine;
-import travelmate.com.travelmateapp.models.GJourney;
-import travelmate.com.travelmateapp.models.GLeg;
-import travelmate.com.travelmateapp.models.GLine;
-import travelmate.com.travelmateapp.models.GRoute;
-import travelmate.com.travelmateapp.models.GStep;
-import travelmate.com.travelmateapp.models.GTransitDetails;
+import travelmate.com.travelmateapp.models.Journey;
 import travelmate.com.travelmateapp.models.JourneyStatus;
 
 /**
@@ -56,13 +45,13 @@ public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
         String url = context.getString(R.string.server_url) + "/api/journey/saved?" + paramString;
         String jsonStr = handler.makeServiceCall("GET", url);
 
-        ArrayList<GJourney> journeys = new ArrayList<>();
+        ArrayList<Journey> journeys = new ArrayList<>();
         if (jsonStr != null) {
             try {
                 JSONArray jsonArray = new JSONArray(jsonStr);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject currentJson = jsonArray.getJSONObject(i);
-                    GJourney journey = new GJourney(currentJson);
+                    Journey journey = new Journey(currentJson);
                     if (journey.status.equals(JourneyStatus.Delayed)) {
                         addDisruptedLines(currentJson, journey);
                     }
@@ -78,7 +67,7 @@ public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
         return journeys;
     }
 
-    private void addDisruptedLines(JSONObject json, GJourney journey) throws JSONException {
+    private void addDisruptedLines(JSONObject json, Journey journey) throws JSONException {
         JSONArray disruptedLinesJsonArray = json.getJSONArray("disruptedLines");
         ArrayList<DbLine> disruptedLines = new ArrayList<>();
         for (int j = 0; j < disruptedLinesJsonArray.length(); j++) {

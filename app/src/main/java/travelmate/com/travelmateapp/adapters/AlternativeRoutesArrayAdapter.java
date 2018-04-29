@@ -1,7 +1,6 @@
 package travelmate.com.travelmateapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,29 +8,23 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
-import travelmate.com.travelmateapp.MainActivity;
 import travelmate.com.travelmateapp.R;
-import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.GJourney;
-import travelmate.com.travelmateapp.models.GRoute;
-import travelmate.com.travelmateapp.models.GStep;
-import travelmate.com.travelmateapp.tasks.SelectJourneyTask;
+import travelmate.com.travelmateapp.models.Route;
+import travelmate.com.travelmateapp.models.Step;
 
 /**
  * Created by joegr on 18/03/2018.
  */
 
-public class AlternativeRoutesArrayAdapter extends ArrayAdapter<GRoute> {
+public class AlternativeRoutesArrayAdapter extends ArrayAdapter<Route> {
 
     private Context context;
     private String TAG;
-    private ArrayList<GRoute> routes;
+    private ArrayList<Route> routes;
 
-    public AlternativeRoutesArrayAdapter(Context context, ArrayList<GRoute> routes) {
+    public AlternativeRoutesArrayAdapter(Context context, ArrayList<Route> routes) {
         super(context, 0, routes);
         this.context = context;
         this.routes = routes;
@@ -46,14 +39,14 @@ public class AlternativeRoutesArrayAdapter extends ArrayAdapter<GRoute> {
         }
 
         // Get the data item for this position
-        final GRoute route = routes.get(position);
+        final Route route = routes.get(position);
 
         // Lookup view for data population
         LinearLayout linearLayout = convertView.findViewById(R.id.journey_list_item_linear);
         linearLayout.removeAllViews();
 
         // Populate inner LinearLayout
-        for (GStep step : route.legs.get(0).steps) {
+        for (Step step : route.legs.get(0).steps) {
             View innerLayout = LayoutInflater.from(context).inflate(R.layout.journey_list_item_linear_item, null);
             TextView stepText = innerLayout.findViewById(R.id.linear_step);
             TextView instruction = innerLayout.findViewById(R.id.linear_instruction);

@@ -1,10 +1,10 @@
 package travelmate.com.travelmateapp.models;
 
-/**
- * Created by joegr on 25/01/2018.
- */
+import java.util.ArrayList;
 
-public class Leg {
-    public int duration;
-    public Instruction instruction;
+public class Leg
+{
+    public String end_address;
+    public String start_address;
+    public ArrayList<Step> steps;
 }

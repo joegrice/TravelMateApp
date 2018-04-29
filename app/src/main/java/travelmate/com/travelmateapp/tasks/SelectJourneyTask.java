@@ -8,7 +8,7 @@ import android.support.annotation.RequiresApi;
 import travelmate.com.travelmateapp.R;
 import travelmate.com.travelmateapp.helpers.HttpHandler;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.GJourney;
+import travelmate.com.travelmateapp.models.Journey;
 
 /**
  * Created by joegr on 19/03/2018.
@@ -28,7 +28,7 @@ public class SelectJourneyTask extends AsyncTask<Object, Object, Object> {
         Context context = (Context) objects[0];
         String uid = (String) objects[1];
         String route = (String) objects[2];
-        GJourney userJourney = (GJourney) objects[3];
+        Journey userJourney = (Journey) objects[3];
         HttpHandler handler = new HttpHandler();
         String params = "uid=" + uid + "&name=" + userJourney.name + "&route=" + route
                 + "&startlocation=" + userJourney.from + "&endlocation=" + userJourney.to

@@ -4,7 +4,6 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,7 +25,7 @@ import travelmate.com.travelmateapp.helpers.NavDrawerListener;
 import travelmate.com.travelmateapp.helpers.NavigationHelper;
 import travelmate.com.travelmateapp.helpers.TimePickerFragment;
 import travelmate.com.travelmateapp.models.AsyncResponse;
-import travelmate.com.travelmateapp.models.GJourney;
+import travelmate.com.travelmateapp.models.Journey;
 import travelmate.com.travelmateapp.tasks.GetJourneyDetailsTask;
 
 public class AddJourneyActivity extends AppCompatActivity implements View.OnClickListener {
@@ -84,7 +83,7 @@ public class AddJourneyActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void addJourney() {
-        final GJourney userJourney = new GJourney();
+        final Journey userJourney = new Journey();
         EditText name = findViewById(R.id.editText_name);
         userJourney.name = name.getText().toString();
         EditText startLocation = findViewById(R.id.editText_StartLocation);
@@ -101,7 +100,7 @@ public class AddJourneyActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void processFinish(Object output) {
-                    GJourney outputJourney = (GJourney) output;
+                    Journey outputJourney = (Journey) output;
                     userJourney.routes = outputJourney.routes;
                     moveToSelectPage(userJourney);
                 }
@@ -110,7 +109,7 @@ public class AddJourneyActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private void moveToSelectPage(GJourney journey) {
+    private void moveToSelectPage(Journey journey) {
         Intent intent = new Intent(this, SelectJourneyActivity.class);
         Gson gson = new Gson();
         String userJourney = gson.toJson(journey);
