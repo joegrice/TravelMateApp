@@ -105,7 +105,8 @@ public class SavedJourneyActivity extends AppCompatActivity {
                 if (step.transit_details != null && step.transit_details.line != null) {
                     for (DbLine dbLine : disruptedLines) {
                         if (step.transit_details.line.name.equals(dbLine.Name)
-                                || step.transit_details.line.short_name.equals(dbLine.Name)) {
+                                || (step.transit_details.line.short_name != null
+                                && step.transit_details.line.short_name.equals(dbLine.Name))) {
                             containsDelayedLine = true;
                             break;
                         }

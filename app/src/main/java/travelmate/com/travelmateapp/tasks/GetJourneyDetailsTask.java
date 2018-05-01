@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,13 +45,8 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
         String jsonStr = handler.makeServiceCall("GET", url);
 
         if (jsonStr != null) {
-            try {
-                JSONObject jsonObj = new JSONObject(jsonStr);
-                journey = new Journey(jsonObj);
-            } catch (final JSONException e) {
-                e.printStackTrace();
-                Log.e(TAG, "Json parsing error: " + e.getMessage());
-            }
+            Gson gson = new Gson();
+            journey = gson.fromJson(jsonStr, Journey.class);
         } else {
             Log.e(TAG, "Couldn't get json from server.");
         }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +27,7 @@ import travelmate.com.travelmateapp.models.JourneyStatus;
 public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
 
     private String TAG = AddJourneyActivity.class.getSimpleName();
-    public AsyncResponse delegate = null;
+    public AsyncResponse delegate;
 
     public GetSavedJourneysTask(AsyncResponse delegate) {
         this.delegate = delegate;
@@ -51,7 +53,8 @@ public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
                 JSONArray jsonArray = new JSONArray(jsonStr);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject currentJson = jsonArray.getJSONObject(i);
-                    Journey journey = new Journey(currentJson);
+                    Gson gson = new Gson();
+                    Journey journey = gson.fromJson(currentJson.toString(), Journey.class);
                     if (journey.status.equals(JourneyStatus.Delayed)) {
                         addDisruptedLines(currentJson, journey);
                     }
@@ -70,9 +73,10 @@ public class GetSavedJourneysTask extends AsyncTask<Object, Object, Object> {
     private void addDisruptedLines(JSONObject json, Journey journey) throws JSONException {
         JSONArray disruptedLinesJsonArray = json.getJSONArray("disruptedLines");
         ArrayList<DbLine> disruptedLines = new ArrayList<>();
+        Gson gson = new Gson();
         for (int j = 0; j < disruptedLinesJsonArray.length(); j++) {
             JSONObject dLine = disruptedLinesJsonArray.getJSONObject(j);
-            DbLine dbLine = new DbLine(dLine);
+            DbLine dbLine = gson.fromJson(dLine.toString(), DbLine.class);
             disruptedLines.add(dbLine);
         }
         journey.disruptedLines = disruptedLines;
