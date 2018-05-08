@@ -35,10 +35,10 @@ public class GetJourneyDetailsTask extends AsyncTask<Object, Object, Object> {
 
     @Override
     protected Object doInBackground(Object[] objects) {
-        HttpHandler handler = new HttpHandler();
         Journey journey = new Journey();
         Context context = (Context) objects[0];
         Journey userJourney = (Journey) objects[1];
+        HttpHandler handler = new HttpHandler();
         String locationString = "startlocation=" + handler.encodeUrl(userJourney.from) +
                 "&endlocation=" + handler.encodeUrl(userJourney.to) + "&time=" + handler.encodeUrl(userJourney.time);
         String url = context.getString(R.string.server_url) + "/api/journey/search?" + locationString;

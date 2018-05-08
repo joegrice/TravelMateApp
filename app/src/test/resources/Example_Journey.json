@@ -1,0 +1,352 @@
+{
+  "id": 0,
+  "name": null,
+  "from": null,
+  "to": null,
+  "time": null,
+  "period": null,
+  "status": "OK",
+  "routes": [
+    {
+      "legs": [
+        {
+          "duration": {
+            "text": "1 hour 50 mins",
+            "value": 6623
+          },
+          "end_address": "Lambeth, London SE1 7PB, UK",
+          "start_address": "Newmarket Rd, Brighton BN2 3QF, UK",
+          "steps": [
+            {
+              "duration": {
+                "text": "2 mins",
+                "value": 139
+              },
+              "html_instructions": "Walk to Lewes Road Bus Garage",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "13 mins",
+                "value": 780
+              },
+              "html_instructions": "Bus towards Bristol Estate",
+              "transit_details": {
+                "line": {
+                  "name": "Bristol Estate - Brighton",
+                  "short_name": "37"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "1 min",
+                "value": 33
+              },
+              "html_instructions": "Walk to Brighton",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "1 hour 9 mins",
+                "value": 4140
+              },
+              "html_instructions": "Train towards London Bridge",
+              "transit_details": {
+                "line": {
+                  "name": "Brighton - London Bridge",
+                  "short_name": "Southern"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "3 mins",
+                "value": 191
+              },
+              "html_instructions": "Walk to London Bridge Underground Station",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "2 mins",
+                "value": 120
+              },
+              "html_instructions": "Subway towards Stanmore",
+              "transit_details": {
+                "line": {
+                  "name": "Jubilee",
+                  "short_name": null
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "7 mins",
+                "value": 442
+              },
+              "html_instructions": "Walk to Lambeth, London SE1 7PB, UK",
+              "transit_details": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "legs": [
+        {
+          "duration": {
+            "text": "1 hour 49 mins",
+            "value": 6563
+          },
+          "end_address": "Lambeth, London SE1 7PB, UK",
+          "start_address": "Newmarket Rd, Brighton BN2 3QF, UK",
+          "steps": [
+            {
+              "duration": {
+                "text": "2 mins",
+                "value": 139
+              },
+              "html_instructions": "Walk to Lewes Road Bus Garage",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "7 mins",
+                "value": 420
+              },
+              "html_instructions": "Bus towards Brighton",
+              "transit_details": {
+                "line": {
+                  "name": "University of Sussex - Hove",
+                  "short_name": "25"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "8 mins",
+                "value": 508
+              },
+              "html_instructions": "Walk to Brighton",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "1 hour 9 mins",
+                "value": 4140
+              },
+              "html_instructions": "Train towards London Bridge",
+              "transit_details": {
+                "line": {
+                  "name": "Brighton - London Bridge",
+                  "short_name": "Southern"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "3 mins",
+                "value": 191
+              },
+              "html_instructions": "Walk to London Bridge Underground Station",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "2 mins",
+                "value": 120
+              },
+              "html_instructions": "Subway towards Stanmore",
+              "transit_details": {
+                "line": {
+                  "name": "Jubilee",
+                  "short_name": null
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "7 mins",
+                "value": 442
+              },
+              "html_instructions": "Walk to Lambeth, London SE1 7PB, UK",
+              "transit_details": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "legs": [
+        {
+          "duration": {
+            "text": "1 hour 48 mins",
+            "value": 6473
+          },
+          "end_address": "Lambeth, London SE1 7PB, UK",
+          "start_address": "Newmarket Rd, Brighton BN2 3QF, UK",
+          "steps": [
+            {
+              "duration": {
+                "text": "2 mins",
+                "value": 139
+              },
+              "html_instructions": "Walk to Lewes Road Bus Garage",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "24 mins",
+                "value": 1440
+              },
+              "html_instructions": "Bus towards Brighton",
+              "transit_details": {
+                "line": {
+                  "name": "Bevendean - Hove",
+                  "short_name": "48"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "2 mins",
+                "value": 94
+              },
+              "html_instructions": "Walk to Brighton",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "49 mins",
+                "value": 2940
+              },
+              "html_instructions": "Train towards London Victoria",
+              "transit_details": {
+                "line": {
+                  "name": "Brighton - London Victoria",
+                  "short_name": "Southern"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "1 min",
+                "value": 0
+              },
+              "html_instructions": "Walk to Clapham Junction",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "9 mins",
+                "value": 540
+              },
+              "html_instructions": "Train towards London Waterloo",
+              "transit_details": {
+                "line": {
+                  "name": "Hampton Court - London Waterloo",
+                  "short_name": "South Western Railway"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "8 mins",
+                "value": 452
+              },
+              "html_instructions": "Walk to Lambeth, London SE1 7PB, UK",
+              "transit_details": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "legs": [
+        {
+          "duration": {
+            "text": "1 hour 52 mins",
+            "value": 6721
+          },
+          "end_address": "Lambeth, London SE1 7PB, UK",
+          "start_address": "Newmarket Rd, Brighton BN2 3QF, UK",
+          "steps": [
+            {
+              "duration": {
+                "text": "4 mins",
+                "value": 250
+              },
+              "html_instructions": "Walk to Melbourne Street",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "9 mins",
+                "value": 540
+              },
+              "html_instructions": "Bus towards Hove",
+              "transit_details": {
+                "line": {
+                  "name": "Moulsecoomb - Hove",
+                  "short_name": "49"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "8 mins",
+                "value": 491
+              },
+              "html_instructions": "Walk to Brighton",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "1 hour 8 mins",
+                "value": 4080
+              },
+              "html_instructions": "Train towards Bedford",
+              "transit_details": {
+                "line": {
+                  "name": "Bedford - Brighton",
+                  "short_name": "Thameslink"
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "3 mins",
+                "value": 174
+              },
+              "html_instructions": "Walk to London Bridge Underground Station",
+              "transit_details": null
+            },
+            {
+              "duration": {
+                "text": "2 mins",
+                "value": 120
+              },
+              "html_instructions": "Subway towards Wembley Park",
+              "transit_details": {
+                "line": {
+                  "name": "Jubilee",
+                  "short_name": null
+                }
+              }
+            },
+            {
+              "duration": {
+                "text": "7 mins",
+                "value": 442
+              },
+              "html_instructions": "Walk to Lambeth, London SE1 7PB, UK",
+              "transit_details": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "disruptedLines": null
+}
